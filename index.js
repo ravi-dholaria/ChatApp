@@ -25,6 +25,11 @@ io.on("connection", (socket) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) {
       callback(error);
+    } else {
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
     }
     socket.emit("message", {
       user: "admin",
@@ -34,10 +39,6 @@ io.on("connection", (socket) => {
       .to(user.room)
       .emit("message", { user: "admin", text: `${user.name} has joined!` });
     socket.join(user.room);
-    io.to(user.room).emit("roomData", {
-      room: user.room,
-      users: getUsersInRoom(user.room),
-    });
     console.log(name, room);
     callback();
   });
