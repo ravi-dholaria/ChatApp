@@ -10,10 +10,7 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 8080;
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:3000",
-      "https://main--frabjous-travesseiro-a27752.netlify.app/",
-    ],
+    origin: "https://main--frabjous-travesseiro-a27752.netlify.app",
     methods: ["GET", "POST"],
   },
 });
