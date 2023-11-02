@@ -30,16 +30,16 @@ io.on("connection", (socket) => {
         room: user.room,
         users: getUsersInRoom(user.room),
       });
+      socket.emit("message", {
+        user: "admin",
+        text: `${user.name} welcome to the room ${user.room}!`,
+      });
+      socket.broadcast
+        .to(user.room)
+        .emit("message", { user: "admin", text: `${user.name} has joined!` });
+      socket.join(user.room);
+      console.log(name, room);
     }
-    socket.emit("message", {
-      user: "admin",
-      text: `${user.name} welcome to the room ${user.room}!`,
-    });
-    socket.broadcast
-      .to(user.room)
-      .emit("message", { user: "admin", text: `${user.name} has joined!` });
-    socket.join(user.room);
-    console.log(name, room);
     callback();
   });
   socket.on("sendMessage", (message, callback) => {
